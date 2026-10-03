@@ -1,0 +1,71 @@
+name: ai_knowledge_assistant
+description: "AI Knowledge Assistant — RAG-powered document intelligence app."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  provider: ^6.1.2
+
+  # Networking (wired up when backend integration begins)
+  http: ^1.2.2
+  dio: ^5.7.0
+
+  # Social sign-in
+  google_sign_in: ^6.2.1
+  flutter_facebook_auth: ^7.1.1
+
+  # Fonts & design
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  lucide_icons: ^0.257.0
+
+  # File handling
+  file_picker: ^8.1.2
+  path_provider: ^2.1.4
+  open_filex: ^4.5.0
+
+  # Voice input
+  speech_to_text: ^7.0.0
+  permission_handler: ^11.3.1
+
+  # Rendering AI answers / documents
+  flutter_markdown: ^0.7.4+3
+  syncfusion_flutter_pdfviewer: ^27.1.58
+
+  # Local persistence (session, theme, cached chats)
+  shared_preferences: ^2.3.2
+
+  # UX polish
+  shimmer: ^3.0.0
+  lottie: ^3.1.3
+  flutter_animate: ^4.5.2
+  animations: ^2.0.11
+  cached_network_image: ^3.4.1
+  intl: ^0.19.0
+  uuid: ^4.5.1
+  fl_chart: ^0.69.0
+  dotted_border: ^2.1.0
+  visibility_detector: ^0.4.0+2
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Uncomment and add real assets before shipping
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  #   - assets/lottie/

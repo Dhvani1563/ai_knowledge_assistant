@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-archive_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archive_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-archive_db}
+    ports:
+      - "127.0.0.1:5432:5432"   # only this laptop can connect
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-archive_user}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"   # database viewer: http://localhost:8080
+    depends_on:
+      - db
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6333:6333"   # dashboard: http://localhost:6333/dashboard
+    volumes:
+      - qdrantdata:/qdrant/storage
+
+  api:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - uploads:/app/storage/uploads
+      - hfcache:/root/.cache/huggingface   # keeps the embedding model across rebuilds
+    depends_on:
+      db:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+
+volumes:
+  pgdata:
+  qdrantdata:
+  uploads:
+  hfcache:
