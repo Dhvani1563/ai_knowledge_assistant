@@ -44,3 +44,5 @@ tenacity==9.0.0
 # Question classifier (ML)
 scikit-learn>=1.5.2
 joblib==1.4.2
+
+psycopg2-binary==2.9.13
