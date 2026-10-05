@@ -64,7 +64,7 @@ def _anthropic(system: str, user: str, max_tokens: int) -> str:
     from anthropic import Anthropic
 
     client = Anthropic(api_key=settings.anthropic_api_key)
-       response = client.messages.create(  # type: ignore[reportCallIssue]
+    response = client.messages.create(  # type: ignore[reportCallIssue]
         model=settings.anthropic_model, max_tokens=max_tokens, temperature=0.2,
         system=system, messages=[{"role": "user", "content": user}],
     )
