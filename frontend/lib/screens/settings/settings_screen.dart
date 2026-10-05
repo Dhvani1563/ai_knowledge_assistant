@@ -6,6 +6,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/document_provider.dart';
 import '../../widgets/common/user_avatar.dart';
+import 'info_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -16,9 +17,15 @@ class SettingsScreen extends StatelessWidget {
         return 'Signed in with Google';
       case 'facebook':
         return 'Signed in with Facebook';
+      case 'phone':
+        return 'Signed in with phone number';
       default:
         return 'Email account';
     }
+  }
+
+  void _openInfo(BuildContext context, String title, List<InfoSection> sections) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => InfoScreen(title: title, sections: sections)));
   }
 
   @override
@@ -45,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                     children: [
                       Text(user?.name ?? 'Guest', style: AppTextStyles.h1, maxLines: 1, overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 2),
-                      Text(user?.email ?? '', style: AppTextStyles.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Text(user?.email ?? user?.phone ?? '', style: AppTextStyles.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -70,9 +77,22 @@ class SettingsScreen extends StatelessWidget {
           Text('Account', style: AppTextStyles.label),
           const SizedBox(height: 8),
           _Group(children: [
-            _Row(icon: Icons.security_outlined, title: 'Privacy & data', onTap: () {}),
-            _Row(icon: Icons.help_outline_rounded, title: 'Help center', onTap: () {}),
-            _Row(icon: Icons.info_outline_rounded, title: 'About Archive', onTap: () {}, last: true),
+            _Row(
+              icon: Icons.security_outlined,
+              title: 'Privacy & data',
+              onTap: () => _openInfo(context, 'Privacy & data', AppInfoContent.privacy),
+            ),
+            _Row(
+              icon: Icons.help_outline_rounded,
+              title: 'Help center',
+              onTap: () => _openInfo(context, 'Help center', AppInfoContent.help),
+            ),
+            _Row(
+              icon: Icons.info_outline_rounded,
+              title: 'About Archive',
+              onTap: () => _openInfo(context, 'About Archive', AppInfoContent.about),
+              last: true,
+            ),
           ]),
           const SizedBox(height: 26),
           OutlinedButton.icon(

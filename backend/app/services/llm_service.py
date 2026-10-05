@@ -64,8 +64,9 @@ def _anthropic(system: str, user: str, max_tokens: int) -> str:
     from anthropic import Anthropic
 
     client = Anthropic(api_key=settings.anthropic_api_key)
-    response = client.messages.create(
+       response = client.messages.create(  # type: ignore[reportCallIssue]
         model=settings.anthropic_model, max_tokens=max_tokens, temperature=0.2,
         system=system, messages=[{"role": "user", "content": user}],
     )
     return "".join(b.text for b in response.content if b.type == "text").strip()
+    messages=[{"role": "user", "content": user}],  # type: ignore[arg-type]

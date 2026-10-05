@@ -8,6 +8,7 @@ import '../../providers/document_provider.dart';
 import '../../widgets/common/user_avatar.dart';
 import '../chat/chat_screen.dart';
 import '../documents/document_management_screen.dart';
+import '../settings/settings_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -50,7 +51,11 @@ class DashboardScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                UserAvatar(user: auth.user, radius: 24),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+                  customBorder: const CircleBorder(),
+                  child: UserAvatar(user: auth.user, radius: 24),
+                ),
               ],
             ),
             const SizedBox(height: 22),

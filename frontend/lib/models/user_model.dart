@@ -1,9 +1,10 @@
 class UserModel {
   final String id;
   final String name;
-  final String email;
+  final String? email;
+  final String? phone;
   final String? avatarUrl;
-  final String? oauthProvider; // 'google' | 'facebook' | null (email/password)
+  final String? oauthProvider; // 'google' | 'facebook' | 'phone' | null (email/password)
   final DateTime joinedAt;
   final int documentCount;
   final int queryCount;
@@ -11,7 +12,8 @@ class UserModel {
   const UserModel({
     required this.id,
     required this.name,
-    required this.email,
+    this.email,
+    this.phone,
     this.avatarUrl,
     this.oauthProvider,
     required this.joinedAt,
@@ -29,7 +31,8 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json['id'].toString(),
         name: json['name'] as String,
-        email: json['email'] as String,
+        email: json['email'] as String?,
+        phone: json['phone'] as String?,
         avatarUrl: json['avatar_url'] as String?,
         oauthProvider: json['oauth_provider'] as String?,
         joinedAt: DateTime.parse(json['created_at'] as String),
