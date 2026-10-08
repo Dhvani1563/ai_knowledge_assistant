@@ -134,11 +134,15 @@ class AuthProvider extends ChangeNotifier {
     _setLoading(true);
     _errorMessage = null;
     try {
-      final result = await FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
+      final result = await FacebookAuth.instance.login(
+  permissions: ['email', 'public_profile'],
+  loginBehavior: LoginBehavior.webOnly,
+);
 
       if (result.status == LoginStatus.cancelled) return false;
       if (result.status != LoginStatus.success || result.accessToken == null) {
-        throw ApiException(result.message ?? 'Facebook sign-in failed.');
+        // was: throw ApiException(result.message ?? 'Facebook sign-in failed.');
+throw ApiException('Facebook returned ${result.status.name}: ${result.message ?? 'no message'}');
       }
 
       final accessToken = result.accessToken!.tokenString;
@@ -148,7 +152,8 @@ class AuthProvider extends ChangeNotifier {
       _status = AuthStatus.authenticated;
       return true;
     } catch (e) {
-      _errorMessage = e is ApiException ? e.message : 'Facebook sign-in failed. Please try again.';
+      // was: _errorMessage = e is ApiException ? e.message : 'Facebook sign-in failed. Please try again.';
+_errorMessage = e is ApiException ? e.message : 'Facebook sign-in error: $e';
       return false;
     } finally {
       _setLoading(false);

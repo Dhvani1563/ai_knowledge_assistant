@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string name="app_name">ai_knowledge_assistant</string>
+<string name="facebook_app_id">1596680405484493</string>
+<string name="fb_login_protocol_scheme">fb1596680405484493</string>
+<string name="facebook_client_token">55377c2de2da9d25d51234b786560b6c0</string>
+
+</resources>
