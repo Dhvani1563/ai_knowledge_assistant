@@ -4,13 +4,11 @@ WORKDIR /app
 
 # System deps needed by psycopg2 and sentence-transformers/torch
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    curl \
+    libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=300 -r requirements.txt
 
 COPY . .
 
