@@ -84,6 +84,26 @@ class DocumentProvider extends ChangeNotifier {
     }
   }
 
+  // ── Sharing (owner only; the backend enforces this, the UI just hides the buttons) ──
+
+  /// People this document is shared with. Throws ApiException on failure.
+  Future<List<DocumentShareModel>> fetchShares(String documentId) async {
+    final data = await _api.get('/documents/$documentId/shares') as List;
+    return data.map((s) => DocumentShareModel.fromJson(s as Map<String, dynamic>)).toList();
+  }
+
+  /// Gives another Archive user read-only access. Throws ApiException with
+  /// a readable message (e.g. "We couldn't find an Archive user with that email.").
+  Future<DocumentShareModel> shareDocument(String documentId, String email) async {
+    final data = await _api.post('/documents/$documentId/shares', body: {'email': email}) as Map<String, dynamic>;
+    return DocumentShareModel.fromJson(data);
+  }
+
+  /// Removes someone's access immediately.
+  Future<void> revokeShare(String documentId, String shareId) async {
+    await _api.delete('/documents/$documentId/shares/$shareId');
+  }
+
   Future<void> deleteDocument(String id) async {
     final backup = List<DocumentModel>.from(_documents);
     _documents.removeWhere((d) => d.id == id);

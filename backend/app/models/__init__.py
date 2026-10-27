@@ -2,3 +2,4 @@
 from .user import User  # noqa: F401
 from .document import Document, DocumentStatus  # noqa: F401
 from .chat import ChatSession, ChatMessage, MessageSender, QuestionType  # noqa: F401
+from .security import DocumentShare, AuditLog  # noqa: F401

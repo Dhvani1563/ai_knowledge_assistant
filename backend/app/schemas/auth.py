@@ -23,10 +23,15 @@ class FacebookAuthRequest(BaseModel):
     access_token: str  # from flutter_facebook_auth's LoginResult.accessToken
 
 
+class PhoneAuthRequest(BaseModel):
+    id_token: str  # Firebase ID token, after the user verifies their OTP on-device
+
+
 class UserOut(BaseModel):
     id: UUID
     name: str
-    email: EmailStr
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
     avatar_url: Optional[str] = None
     oauth_provider: Optional[str] = None
     created_at: datetime

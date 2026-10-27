@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from uuid import UUID
 from datetime import datetime
 from typing import Optional
@@ -15,8 +15,10 @@ class SourceReferenceOut(BaseModel):
 
 class SendMessageRequest(BaseModel):
     session_id: Optional[UUID] = None  # omit to create a new session
-    text: str
-    document_ids: list[UUID] = []  # optional scope; empty = search all of the user's documents
+    # Length limits stop prompt-stuffing and runaway AI costs
+    text: str = Field(min_length=1, max_length=2000)
+    # optional scope; empty = search every document the user may access
+    document_ids: list[UUID] = Field(default_factory=list, max_length=50)
 
 
 class ChatMessageOut(BaseModel):
